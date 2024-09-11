@@ -1,0 +1,90 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Portfolio API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "marceloaflemes@gmail.com"
+    }
+  },
+  "servers": [{
+    "url": "http://localhost:8081/v1/users",
+    "description": "Test API"
+  }],
+  "paths": {
+    "/v1/users": {
+      "get": {
+        "summary": "Get all users",
+        "description": "Retrieves a list of all users in the system. This endpoint returns detailed information about each user.",
+        "tag": ["Users"],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application.json": {
+                "schema": {
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "githubUrl": {
+            "type": "string"
+          },
+          "linkedinUrl": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "stack": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+  
