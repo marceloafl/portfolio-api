@@ -1,12 +1,17 @@
 import express from "express";
-import { getAllUser } from "../controllers/userController.js";
+import {
+  createUser,
+  deleteUser,
+  getAllUser,
+  getUserById,
+} from "../controllers/userController.js";
+import { validateId } from "../middleware/validationMiddleware.js";
 
 const router = express.Router();
 
-router.get("/v1/users", getAllUser);
-
-// router.get("/", (req, res) => {
-//   res.send("Alou alou");
-// });
+router.get("/users", getAllUser);
+router.get("/users/:id", validateId, getUserById);
+router.post("/users", createUser);
+router.delete("/users/:id", validateId, deleteUser);
 
 export default router;

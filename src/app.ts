@@ -3,15 +3,15 @@ import userRouter from "./routes/userRoutes.js";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import { main } from "./config/db.js";
-import swaggerDocs from "./swagger.json"
+import swaggerDocs from "./swagger.json";
 
 const app = express();
 const port = 8081;
 
 app.use(express.json());
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use("/v1/users", userRouter);
+app.use("/v1", userRouter);
 
 async function startServer() {
   try {
