@@ -7,29 +7,145 @@
       "email": "marceloaflemes@gmail.com"
     }
   },
-  "servers": [{
-    "url": "http://localhost:8081/v1/users",
-    "description": "Test API"
-  }],
+  "servers": [
+    {
+      "url": "http://localhost:8081/v1",
+      "description": "Test API"
+    }
+  ],
   "paths": {
-    "/v1/users": {
+    "/users": {
       "get": {
         "summary": "Get all users",
         "description": "Retrieves a list of all users in the system. This endpoint returns detailed information about each user.",
-        "tag": ["Users"],
+        "tags": ["Users"],
         "responses": {
           "200": {
             "description": "Ok",
             "content": {
-              "application.json": {
+              "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
-                    "type": "object",
                     "$ref": "#/components/schemas/User"
                   }
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new user",
+        "description": "Creates a new user with the provided information. This endpoint requires the user data to be provided in the request body. Returns the newly created user.",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "newUser": {
+                  "summary": "A new user",
+                  "value": {
+                    "name": "John Doe",
+                    "email": "john.doe@example.com",
+                    "githubUrl": "http://github.com/johndoe",
+                    "linkedinUrl": "http://linkedin.com/in/johndoe",
+                    "title": "Software Engineer",
+                    "subtitle": "Full Stack Developer",
+                    "projects": [
+                      {
+                        "name": "Project One",
+                        "url": "http://projectone.com",
+                        "stack": "Frontend"
+                      }
+                    ],
+                    "skills": ["JavaScript", "TypeScript", "Node.js"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing required fields or invalid data"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get user by ID",
+        "description": "Fetches detailed information about a specific user identified by the unique `id`. If the user with the specified `id` does not exist, the endpoint will return a 404 Not Found error.",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "description": "Deletes a specific user identified by the unique `id`. If the user with the specified `id` does not exist, the endpoint will return a 404 Not Found error.",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content - User successfully deleted"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -70,9 +186,11 @@
                   "type": "string"
                 },
                 "stack": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": ["Frontend", "Backend", "Fullstack", "Low-code"]
                 }
-              }
+              },
+              "required": ["name", "url", "stack"]
             }
           },
           "skills": {
@@ -81,10 +199,18 @@
               "type": "string"
             }
           }
-        }
+        },
+        "required": [
+          "name",
+          "email",
+          "githubUrl",
+          "linkedinUrl",
+          "title",
+          "subtitle",
+          "projects",
+          "skills"
+        ]
       }
     }
   }
 }
-
-  
