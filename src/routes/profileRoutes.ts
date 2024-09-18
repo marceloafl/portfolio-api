@@ -6,7 +6,7 @@ import {
   getProfileById,
   updateProfile,
 } from "../controllers/profileController.js";
-import { validateId } from "../middleware/validation.js";
+import { validateId } from "../middleware/idValidation.js";
 
 const router = express.Router();
 

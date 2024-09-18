@@ -6,5 +6,5 @@ export const createUser = async (email: string, hashedPassword: string) => {
 };
 
 export const findUserByEmail = async (email: string) => {
-  return await User.findOne({ email });
+  return await User.findOne({ email }).select("+password");
 };

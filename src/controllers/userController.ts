@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { loginUser, registerUser } from "../services/authService.js";
+import { loginUser, registerUser } from "../services/userService.js";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   await body("email").isEmail().notEmpty().run(req);
@@ -39,8 +39,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
   try {
-    const user = await loginUser(email, password);
-    res.status(200).json({ message: "Login successful", user });
+    const { user, token } = await loginUser(email, password);
+    res.status(200).json({ message: "Login successful", user, token });
   } catch (error) {
     console.error("Login error:", error);
     res.status(401).json({ message: error });
