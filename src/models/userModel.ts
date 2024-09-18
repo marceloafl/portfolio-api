@@ -51,32 +51,3 @@ const userSchema = new Schema<IUser>({
 
 const User = mongoose.model<IUser>("User", userSchema);
 export default User;
-
-// const user = new User({
-//   name: "Marcelo",
-//   email: "marceloaflemes@gmail.com",
-//   githubUrl: "https://github.com/marceloafl/",
-//   linkedinUrl: "https://www.linkedin.com/in/marceloafl/",
-//   title: "SOFTWARE DEVELOPER",
-//   subtitle: "Crafting transformative solutions that solve real-world issues.",
-//   projects: [
-//     {
-//       name: "Birmingham Bank",
-//       url: "https://www.birminghambank.com/services/savings/",
-//       stack: "Frontend",
-//     },
-//     {
-//       name: "Grupo FCamara",
-//       url: "https://fcamara.com/",
-//       stack: "Fullstack",
-//     },
-//   ],
-//   skills: ["Javascript", "Typescript"],
-// });
-
-// // await user
-// //   .save()
-// //   .then("Saved")
-// //   .catch((error) => console.log(error));
-
-// // await User.deleteMany({});

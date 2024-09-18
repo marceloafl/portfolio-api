@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import User from "../models/userModel.js";
 import { body, validationResult } from "express-validator";
+import * as userService from "../services/userService.js";
 
-export const getAllUser = async (
+export const getAllUsers = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const users = await User.find();
+    const users = await userService.getAllUsers();
     res.json(users);
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -21,7 +21,7 @@ export const getUserById = async (
 ): Promise<void> => {
   const id = req.params.id;
   try {
-    const user = await User.findById(id);
+    const user = await userService.getUserById(id);
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
@@ -52,31 +52,9 @@ export const createUser = async (
     return;
   }
 
-  const {
-    name,
-    email,
-    githubUrl,
-    linkedinUrl,
-    title,
-    subtitle,
-    projects,
-    skills,
-  } = req.body;
-
   try {
-    const newUser = new User({
-      name,
-      email,
-      githubUrl,
-      linkedinUrl,
-      title,
-      subtitle,
-      projects,
-      skills,
-    });
-
-    const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
+    const newUser = await userService.createUser(req.body);
+    res.status(201).json(newUser);
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -89,7 +67,7 @@ export const deleteUser = async (
 ): Promise<void> => {
   const id = req.params.id;
   try {
-    const user = await User.findByIdAndDelete(id);
+    const user = await userService.deleteUser(id);
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
@@ -105,14 +83,14 @@ export const updateUser = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  await body("name").optional().isString().notEmpty().run(req);
+  await body("name").optional().isString().run(req);
   await body("email").optional().isEmail().run(req);
   await body("githubUrl").optional().isURL().run(req);
   await body("linkedinUrl").optional().isURL().run(req);
   await body("title").optional().isString().run(req);
   await body("subtitle").optional().isString().run(req);
-  await body("projects").optional().isArray().notEmpty().run(req);
-  await body("skills").optional().isArray().notEmpty().run(req);
+  await body("projects").optional().isArray().run(req);
+  await body("skills").optional().isArray().run(req);
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -121,18 +99,26 @@ export const updateUser = async (
   }
 
   const id = req.params.id;
-  const updateData = req.body;
 
   try {
-    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!updatedUser) {
+    const existingUser = await userService.getUserById(id);
+    if (!existingUser) {
       res.status(404).json({ message: "User not found" });
       return;
     }
+
+    const updateData = {
+      name: req.body.name || existingUser.name,
+      email: req.body.email || existingUser.email,
+      githubUrl: req.body.githubUrl || existingUser.githubUrl,
+      linkedinUrl: req.body.linkedinUrl || existingUser.linkedinUrl,
+      title: req.body.title || existingUser.title,
+      subtitle: req.body.subtitle || existingUser.subtitle,
+      projects: req.body.projects || existingUser.projects,
+      skills: req.body.skills || existingUser.skills,
+    };
+
+    const updatedUser = await userService.updateUser(id, updateData);
     res.json(updatedUser);
   } catch (error) {
     console.error("Error updating user:", error);
