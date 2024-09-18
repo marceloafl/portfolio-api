@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import profileRouter from "./routes/profileRoutes.js";
+import authRouter from "./routes/authRoutes.js";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import { main } from "./config/db.js";
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use("/v1", profileRouter);
+app.use("/v1", authRouter);
 
 async function startServer() {
   try {

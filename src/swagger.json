@@ -51,9 +51,7 @@
                   "summary": "A new profile",
                   "value": {
                     "name": "John Doe",
-                    "email": "john.doe@example.com",
-                    "contactEmail": "contact@example.com",
-                    "password": "securepassword",
+                    "email": "contact@example.com",
                     "githubUrl": "http://github.com/johndoe",
                     "linkedinUrl": "http://linkedin.com/in/johndoe",
                     "title": "Software Engineer",
@@ -178,9 +176,7 @@
                   "summary": "Update profile details",
                   "value": {
                     "name": "Jane Doe",
-                    "email": "jane.doe@example.com",
-                    "contactEmail": "contact.jane@example.com",
-                    "password": "newsecurepassword",
+                    "email": "contact.jane@example.com",
                     "githubUrl": "http://github.com/janedoe",
                     "linkedinUrl": "http://linkedin.com/in/janedoe",
                     "title": "Senior Software Engineer",
@@ -221,6 +217,119 @@
           }
         }
       }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "Creates a new user with the provided email and password.",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "password"]
+              },
+              "examples": {
+                "newUser": {
+                  "summary": "A new user",
+                  "value": {
+                    "email": "contact@example.com",
+                    "password": "Password123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing required fields or invalid data"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login a user",
+        "description": "Authenticates a user and returns a JWT token.",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid credentials"
+          },
+          "400": {
+            "description": "Bad Request - Missing required fields or invalid data"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -232,12 +341,6 @@
             "type": "string"
           },
           "email": {
-            "type": "string"
-          },
-          "contactEmail": {
-            "type": "string"
-          },
-          "password": {
             "type": "string"
           },
           "githubUrl": {
@@ -281,8 +384,6 @@
         "required": [
           "name",
           "email",
-          "contactEmail",
-          "password",
           "githubUrl",
           "linkedinUrl",
           "title",

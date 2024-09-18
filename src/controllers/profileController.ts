@@ -39,8 +39,6 @@ export const createProfile = async (
 ): Promise<void> => {
   await body("name").isString().notEmpty().run(req);
   await body("email").isEmail().notEmpty().run(req);
-  await body("password").isString().notEmpty().run(req);
-  await body("contactEmail").isEmail().notEmpty().run(req);
   await body("githubUrl").isURL().notEmpty().run(req);
   await body("linkedinUrl").isURL().notEmpty().run(req);
   await body("title").isString().notEmpty().run(req);
@@ -87,8 +85,6 @@ export const updateProfile = async (
 ): Promise<void> => {
   await body("name").optional().isString().run(req);
   await body("email").optional().isEmail().run(req);
-  await body("password").optional().isString().run(req);
-  await body("contactEmail").optional().isEmail().run(req);
   await body("githubUrl").optional().isURL().run(req);
   await body("linkedinUrl").optional().isURL().run(req);
   await body("title").optional().isString().run(req);
@@ -114,8 +110,6 @@ export const updateProfile = async (
     const updateData = {
       name: req.body.name || existingProfile.name,
       email: req.body.email || existingProfile.email,
-      password: req.body.password || existingProfile.password,
-      contactEmail: req.body.contactEmail || existingProfile.contactEmail,
       githubUrl: req.body.githubUrl || existingProfile.githubUrl,
       linkedinUrl: req.body.linkedinUrl || existingProfile.linkedinUrl,
       title: req.body.title || existingProfile.title,

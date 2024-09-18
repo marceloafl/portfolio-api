@@ -12,8 +12,6 @@ interface IProject {
 export interface IProfile {
   name: string;
   email: string;
-  password: string;
-  contactEmail: string;
   githubUrl: string;
   linkedinUrl: string;
   title: string;
@@ -30,9 +28,7 @@ const projectSchema = new Schema<IProject>({
 
 const profileSchema = new Schema<IProfile>({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  contactEmail: { type: String, required: true },
+  email: { type: String, required: true },
   githubUrl: { type: String, required: true },
   linkedinUrl: { type: String, required: true },
   title: { type: String, required: true },
