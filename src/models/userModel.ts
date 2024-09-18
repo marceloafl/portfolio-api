@@ -9,7 +9,7 @@ interface IProject {
   stack: Stack;
 }
 
-interface IUser {
+export interface IUser {
   name: string;
   email: string;
   githubUrl: string;

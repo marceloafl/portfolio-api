@@ -1,25 +1,22 @@
-import User from "../models/userModel.js";
+import { IUser } from "../models/userModel.js";
+import * as userRepository from "../repositories/userRepository.js";
 
 export const getAllUsers = async () => {
-  return await User.find();
+  return await userRepository.getAllUsers();
 };
 
 export const getUserById = async (id: string) => {
-  return await User.findById(id);
+  return await userRepository.getUserById(id);
 };
 
-export const createUser = async (userData: any) => {
-  const newUser = new User(userData);
-  return await newUser.save();
+export const createUser = async (userData: IUser) => {
+  return await userRepository.createUser(userData);
 };
 
 export const deleteUser = async (id: string) => {
-  return await User.findByIdAndDelete(id);
+  return await userRepository.deleteUser(id);
 };
 
-export const updateUser = async (id: string, updateData: any) => {
-  return await User.findByIdAndUpdate(id, updateData, {
-    new: true,
-    runValidators: true,
-  });
+export const updateUser = async (id: string, updateData: IUser) => {
+  return await userRepository.updateUser(id, updateData);
 };
