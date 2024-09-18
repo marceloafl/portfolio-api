@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import userRouter from "./routes/userRoutes.js";
+import profileRouter from "./routes/profileRoutes.js";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import { main } from "./config/db.js";
@@ -11,7 +11,7 @@ const port = 8081;
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use("/v1", userRouter);
+app.use("/v1", profileRouter);
 
 async function startServer() {
   try {

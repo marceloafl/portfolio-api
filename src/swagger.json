@@ -14,11 +14,11 @@
     }
   ],
   "paths": {
-    "/users": {
+    "/profiles": {
       "get": {
-        "summary": "Get all users",
-        "description": "Retrieves a list of all users in the system. This endpoint returns detailed information about each user.",
-        "tags": ["Users"],
+        "summary": "Get all profiles",
+        "description": "Retrieves a list of all profiles in the system. This endpoint returns detailed information about each profile.",
+        "tags": ["Profiles"],
         "responses": {
           "200": {
             "description": "Ok",
@@ -27,7 +27,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/Profile"
                   }
                 }
               }
@@ -36,22 +36,24 @@
         }
       },
       "post": {
-        "summary": "Create a new user",
-        "description": "Creates a new user with the provided information. This endpoint requires the user data to be provided in the request body. Returns the newly created user.",
-        "tags": ["Users"],
+        "summary": "Create a new profile",
+        "description": "Creates a new profile with the provided information. This endpoint requires the profile data to be provided in the request body. Returns the newly created profile.",
+        "tags": ["Profiles"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/Profile"
               },
               "examples": {
-                "newUser": {
-                  "summary": "A new user",
+                "newProfile": {
+                  "summary": "A new profile",
                   "value": {
                     "name": "John Doe",
                     "email": "john.doe@example.com",
+                    "contactEmail": "contact@example.com",
+                    "password": "securepassword",
                     "githubUrl": "http://github.com/johndoe",
                     "linkedinUrl": "http://linkedin.com/in/johndoe",
                     "title": "Software Engineer",
@@ -72,11 +74,11 @@
         },
         "responses": {
           "201": {
-            "description": "User created successfully",
+            "description": "Profile created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -90,16 +92,16 @@
         }
       }
     },
-    "/users/{id}": {
+    "/profiles/{id}": {
       "get": {
-        "summary": "Get user by ID",
-        "description": "Fetches detailed information about a specific user identified by the unique `id`. If the user with the specified `id` does not exist, the endpoint will return a 404 Not Found error.",
-        "tags": ["Users"],
+        "summary": "Get profile by ID",
+        "description": "Fetches detailed information about a specific profile identified by the unique `id`. If the profile with the specified `id` does not exist, the endpoint will return a 404 Not Found error.",
+        "tags": ["Profiles"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique identifier of the user",
+            "description": "The unique identifier of the profile",
             "required": true,
             "schema": {
               "type": "string"
@@ -112,25 +114,25 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
           },
           "404": {
-            "description": "User not found"
+            "description": "Profile not found"
           }
         }
       },
       "delete": {
-        "summary": "Delete a user",
-        "description": "Deletes a specific user identified by the unique `id`. If the user with the specified `id` does not exist, the endpoint will return a 404 Not Found error.",
-        "tags": ["Users"],
+        "summary": "Delete a profile",
+        "description": "Deletes a specific profile identified by the unique `id`. If the profile with the specified `id` does not exist, the endpoint will return a 404 Not Found error.",
+        "tags": ["Profiles"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique identifier of the user",
+            "description": "The unique identifier of the profile",
             "required": true,
             "schema": {
               "type": "string"
@@ -139,10 +141,10 @@
         ],
         "responses": {
           "204": {
-            "description": "No Content - User successfully deleted"
+            "description": "No Content - Profile successfully deleted"
           },
           "404": {
-            "description": "User not found"
+            "description": "Profile not found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -150,14 +152,14 @@
         }
       },
       "put": {
-        "summary": "Update a user",
-        "description": "Updates an existing user identified by the unique `id`. Only fields provided in the request body will be updated. Returns the updated user. If the user with the specified `id` does not exist, the endpoint will return a 404 Not Found error.",
-        "tags": ["Users"],
+        "summary": "Update a profile",
+        "description": "Updates an existing profile identified by the unique `id`. Only fields provided in the request body will be updated. Returns the updated profile. If the profile with the specified `id` does not exist, the endpoint will return a 404 Not Found error.",
+        "tags": ["Profiles"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique identifier of the user",
+            "description": "The unique identifier of the profile",
             "required": true,
             "schema": {
               "type": "string"
@@ -169,14 +171,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/Profile"
               },
               "examples": {
-                "updateUser": {
-                  "summary": "Update user details",
+                "updateProfile": {
+                  "summary": "Update profile details",
                   "value": {
                     "name": "Jane Doe",
                     "email": "jane.doe@example.com",
+                    "contactEmail": "contact.jane@example.com",
+                    "password": "newsecurepassword",
                     "githubUrl": "http://github.com/janedoe",
                     "linkedinUrl": "http://linkedin.com/in/janedoe",
                     "title": "Senior Software Engineer",
@@ -197,11 +201,11 @@
         },
         "responses": {
           "200": {
-            "description": "User updated successfully",
+            "description": "Profile updated successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -210,7 +214,7 @@
             "description": "Bad Request - Missing required fields or invalid data"
           },
           "404": {
-            "description": "User not found"
+            "description": "Profile not found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -221,13 +225,19 @@
   },
   "components": {
     "schemas": {
-      "User": {
+      "Profile": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string"
           },
           "email": {
+            "type": "string"
+          },
+          "contactEmail": {
+            "type": "string"
+          },
+          "password": {
             "type": "string"
           },
           "githubUrl": {
@@ -271,6 +281,8 @@
         "required": [
           "name",
           "email",
+          "contactEmail",
+          "password",
           "githubUrl",
           "linkedinUrl",
           "title",

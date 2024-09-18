@@ -9,9 +9,11 @@ interface IProject {
   stack: Stack;
 }
 
-export interface IUser {
+export interface IProfile {
   name: string;
   email: string;
+  password: string;
+  contactEmail: string;
   githubUrl: string;
   linkedinUrl: string;
   title: string;
@@ -26,9 +28,11 @@ const projectSchema = new Schema<IProject>({
   stack: { type: String, required: true, enum: stacks },
 });
 
-const userSchema = new Schema<IUser>({
+const profileSchema = new Schema<IProfile>({
   name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  contactEmail: { type: String, required: true },
   githubUrl: { type: String, required: true },
   linkedinUrl: { type: String, required: true },
   title: { type: String, required: true },
@@ -49,5 +53,5 @@ const userSchema = new Schema<IUser>({
   },
 });
 
-const User = mongoose.model<IUser>("User", userSchema);
-export default User;
+const Profile = mongoose.model<IProfile>("Profile", profileSchema);
+export default Profile;
