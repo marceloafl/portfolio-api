@@ -20,6 +20,12 @@ export interface IUser {
   skills: string[];
 }
 
+const projectSchema = new Schema<IProject>({
+  name: { type: String, required: true },
+  url: { type: String, required: true },
+  stack: { type: String, required: true, enum: stacks },
+});
+
 const userSchema = new Schema<IUser>({
   name: { type: String, required: true },
   email: { type: String, required: true },
@@ -28,13 +34,7 @@ const userSchema = new Schema<IUser>({
   title: { type: String, required: true },
   subtitle: { type: String, required: true },
   projects: {
-    type: [
-      {
-        name: { type: String, required: true },
-        url: { type: String, required: true },
-        stack: { type: String, required: true, enum: stacks },
-      },
-    ],
+    type: [projectSchema],
     required: true,
   },
   skills: {
