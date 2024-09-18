@@ -7,8 +7,11 @@ import {
   updateProfile,
 } from "../controllers/profileController.js";
 import { validateId } from "../middleware/idValidation.js";
+import { authenticateJWT } from "../middleware/auth.js";
 
 const router = express.Router();
+
+router.use(authenticateJWT);
 
 router.get("/profiles", getAllProfiles);
 router.get("/profiles/:id", validateId, getProfileById);
