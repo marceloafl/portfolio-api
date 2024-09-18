@@ -148,6 +148,74 @@
             "description": "Internal Server Error"
           }
         }
+      },
+      "put": {
+        "summary": "Update a user",
+        "description": "Updates an existing user identified by the unique `id`. Only fields provided in the request body will be updated. Returns the updated user. If the user with the specified `id` does not exist, the endpoint will return a 404 Not Found error.",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "updateUser": {
+                  "summary": "Update user details",
+                  "value": {
+                    "name": "Jane Doe",
+                    "email": "jane.doe@example.com",
+                    "githubUrl": "http://github.com/janedoe",
+                    "linkedinUrl": "http://linkedin.com/in/janedoe",
+                    "title": "Senior Software Engineer",
+                    "subtitle": "Backend Developer",
+                    "projects": [
+                      {
+                        "name": "Updated Project",
+                        "url": "http://updatedproject.com",
+                        "stack": "Backend"
+                      }
+                    ],
+                    "skills": ["JavaScript", "Python", "Django"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing required fields or invalid data"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
       }
     }
   },

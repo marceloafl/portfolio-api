@@ -4,6 +4,7 @@ import {
   deleteUser,
   getAllUser,
   getUserById,
+  updateUser,
 } from "../controllers/userController.js";
 import { validateId } from "../middleware/validationMiddleware.js";
 
@@ -13,5 +14,6 @@ router.get("/users", getAllUser);
 router.get("/users/:id", validateId, getUserById);
 router.post("/users", createUser);
 router.delete("/users/:id", validateId, deleteUser);
+router.put("/users/:id", validateId, updateUser);
 
 export default router;
