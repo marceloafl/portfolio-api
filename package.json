@@ -3,8 +3,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "tsx watch src/app.ts",
-    "vercel-build": "echo build"
+    "dev": "tsx watch src/app.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
