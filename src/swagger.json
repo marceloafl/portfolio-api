@@ -301,6 +301,15 @@
                   }
                 },
                 "required": ["email", "password"]
+              },
+              "examples": {
+                "newUser": {
+                  "summary": "User login",
+                  "value": {
+                    "email": "contact@example.com",
+                    "password": "Password123"
+                  }
+                }
               }
             }
           }
