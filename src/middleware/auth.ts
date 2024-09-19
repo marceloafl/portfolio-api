@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import JWT_SECRET from "../config/auth.json";
+import { JWTSecret } from "../config/app.js";
 
 export const authenticateJWT = (
   req: Request,
@@ -19,10 +19,13 @@ export const authenticateJWT = (
   if (!/^Bearer$/i.test(scheme)) {
     return res.status(401).send({ error: "Token malformatted" });
   }
+  if (!JWTSecret) {
+    return res.status(401).send({ error: "JWTSecret error" });
+  }
 
-  jwt.verify(token, JWT_SECRET.secret, (err: any, user: any) => {
+  jwt.verify(token, JWTSecret, (err: any, user: any) => {
     if (err) {
-      return res.sendStatus(401).send({ error: "Invalid token" });
+      return res.status(401).send({ error: "Invalid token" });
     }
 
     req.user = user;

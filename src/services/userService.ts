@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import * as userRepository from "../repositories/userRepository.js";
-import JWT_SECRET from "../config/auth.json";
+import { JWTSecret } from "../config/app.js";
 
 export const registerUser = async (email: string, password: string) => {
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -18,14 +18,13 @@ export const loginUser = async (email: string, password: string) => {
   if (!isMatch) {
     throw new Error("Invalid password");
   }
+  if (!JWTSecret) {
+    throw new Error("JWTSecret error");
+  }
 
-  const token = jwt.sign(
-    { id: user._id, email: user.email },
-    JWT_SECRET.secret,
-    {
-      expiresIn: 86400,
-    }
-  );
+  const token = jwt.sign({ id: user._id, email: user.email }, JWTSecret, {
+    expiresIn: 86400,
+  });
 
   return { user, token };
 };
