@@ -5,15 +5,16 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 import { main } from "./config/db.js";
 import swaggerDocs from "./swagger.json";
+import { PORT } from "./config/app.js";
 
 const app = express();
-const port = 8081;
+const port = PORT;
 
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use("/v1", profileRouter);
 app.use("/v1", authRouter);
+app.use("/v1", profileRouter);
 
 async function startServer() {
   try {
