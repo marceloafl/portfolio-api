@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import profileRouter from "./routes/profileRoutes.js";
 import authRouter from "./routes/authRoutes.js";
 import express from "express";
+import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import { main } from "./config/db.js";
 import swaggerDocs from "./swagger.json";
@@ -10,6 +11,12 @@ import { PORT } from "./config/app.js";
 const app = express();
 const port = PORT;
 
+var corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
